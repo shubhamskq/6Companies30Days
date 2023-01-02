@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        unordered_map<string, function<int  (int,int) >> mp = {
+            {"+", [] (int a, int b) {return a+b;}},
+            {"-", [] (int a, int b) {return a-b;}},
+            {"*", [] (int a, int b) {return a*b;}},
+            {"/", [] (int a, int b) {return a/b;}}
+        };
+        stack<int> st;
+       for(string &c : tokens){
+           if(!mp.count(c)){
+                st.push(stoi(c));
+           }
+           else {
+               int x = st.top();
+               st.pop();
+               int y = st.top();
+               st.pop();
+               st.push(mp[c](y,x));
+           }
+       }
+    return st.top();
+    }
+};
